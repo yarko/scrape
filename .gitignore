@@ -1,0 +1,72 @@
+# syntax: glob
+
+.hg/
+.hgignore
+.hgtags
+
+pip.freeze
+
+
+*~
+*.out
+*.pyc
+*.swp
+*.zip
+foo*
+
+# no images, by default; add them manually if needed:
+*.png
+*.gif
+*.jpg
+*.jpeg
+*.svg
+# we store graphviz files with the *.gv extension;
+#  *.dot files are either just for playing, or are auto-generated.
+*.dot
+
+# no csv tables either (add individually as needed):
+*.csv
+
+# for now, don't save ipy notebooks:
+*.ipynb
+
+# sphinx specific:
+_build
+.DS_Store
+
+# wingIDE:
+*.wpr
+*.wpu
+
+# mac weblink files:
+*.webloc
+
+# project related:
+#  the logging library always creates the log file,
+#  even if it isn't enabled nor written to...
+# - any needed files with this extension can 
+#   be added manually
+*.txt
+*.log
+*.html
+
+tmp/*
+
+dist
+scrape.egg-info
+
+chromedriver*
+
+Luma-Plugin*.py
+
+####
+#
+# syntax: regexp
+
+## Virtual environments:
+# Python 2.7 - the "standard"; now abandoned for this project
+#   due to encoding problems with variations in input;
+/Escrape
+/Enscrape
+
+

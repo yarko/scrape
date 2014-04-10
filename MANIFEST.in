@@ -1,0 +1,4 @@
+include scrape.py
+include requirements.txt
+graft _scrape/plugins
+include recursive-include scrapelib *.py
