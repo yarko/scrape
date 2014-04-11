@@ -4,6 +4,8 @@
 .hgignore
 .hgtags
 
+/build
+
 pip.freeze
 
 
@@ -46,7 +48,8 @@ _build
 #  even if it isn't enabled nor written to...
 # - any needed files with this extension can 
 #   be added manually
-*.txt
+#  *.txt
+
 *.log
 *.html
 

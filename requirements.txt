@@ -1,0 +1,22 @@
+# requirements for scrape.py:
+#
+#  Additionally, you need a current Firefox browser, with
+#   the Selenium plugin installed;
+# For output / display:
+PyYAML>=3.10
+
+#  Optional, for development use:
+# Pygments==1.5
+# bpython==0.11
+
+# Core use
+lxml>=2.3.4
+cssselect>=0.1.4
+
+selenium>=2.29.0
+# need to use:  pip install --allow-external argparse for this:
+#  Can include a lin "--allow-external argparse"  here, which only will work with pip install...
+#    but not with setup.py;
+ argparse>=1.2.1
+
+
