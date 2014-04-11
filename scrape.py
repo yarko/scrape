@@ -6,7 +6,7 @@ from __future__ import unicode_literals
 
 # scrape.py
 
-__version__ = '0.1a3'
+__version__ = '0.1a4'
 
 
 import os   # for getting at user env vars
@@ -105,6 +105,8 @@ SEPARATOR = '\n'
 BATCH = False
 # defined for code readability:
 CONTAINS = lambda t, s: s.find(t) >= 0
+# filter output so as to skip blank lines:
+no_blanks = lambda s: '\n'.join([line for line in s.splitlines() if line.strip()])
 
 
 """
@@ -398,6 +400,9 @@ class MainCmd(cmd.Cmd):
     # when populating table, by default fill with '';
     # - if populous==True, then by last value from a column
     populous = False
+
+    nonblank = True   # skip blank lines on output
+
     # Now:  set (including default) w/ command line options:
     # maxcellsize = 512  # a resonable default; warn is an output cell is larger
 
@@ -732,12 +737,17 @@ class MainCmd(cmd.Cmd):
         #  - save for later showing, if desired
         # ugh! => encode it all to utf-8:
         self.grab = browser.execute_script(JS_GET_SELECTION)
+        if self.nonblank:
+            grab = []
+            for val in self.grab:
+                grab.append(no_blanks(val))
+        else:
+            grab = self.grab
+
         # TODO: there is some piece missing here; this doesn't make sense,
         #   - there must be more to this working or not working:
-        if 'unicode_literals' in globals():
-            grab = self.grab
-        else:  # ???
-            grab = [i.encode('utf-8') for i in self.grab]
+        if not 'unicode_literals' in globals():
+            grab = [i.encode('utf-8') for i in grab]
 
         # TODO:
         if not grab:
@@ -1099,7 +1109,10 @@ class MainCmd(cmd.Cmd):
             return
         for show_what in show_whats:
             if show_what is not None and isinstance(show_what, type(self.doc)):
-                print(etree.tostring(show_what, pretty_print=True))
+                if self.nonblank:
+                    print(no_blanks(etree.tostring(show_what, pretty_print=True)))
+                else:
+                    print(etree.tostring(show_what, pretty_print=True))
             elif isinstance(show_what, envoy.core.Response):
                 print(show_what)   # I want to show the instance name too;
                 print("{}:\nstatus code: {:d};".format(show_what.command, show_what.status_code))
