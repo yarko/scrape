@@ -1,0 +1,11 @@
+Some todos:
+
+- split out functions from the too-large cmd class into separate files;
+- manage csv and show display with pandas dataframes
+- investigate using stevedore for managing plugins
+- porting to python3
+    - see what aspects of http://compiletoi.net/fast-scraping-in-python-with-asyncio.html to take on;
+- gui interface - steal from: https://github.com/scrapinghub/portia
+
+
+
