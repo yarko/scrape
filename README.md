@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/yarko/scrape.png?label=ready&title=Ready)](https://waffle.io/yarko/scrape)
 # scrape.py README:
 
 Status:  alpha  (useable / useful , but messy code, and probably not very uniform nor reliable in behavior; )
