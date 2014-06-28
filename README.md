@@ -18,4 +18,4 @@ Tutorials and installation instructions can be found on [scrape.readthedocs.org]
 - update plugin structure;
 - add timing (hit frequency) control to running script;
 - consider running background (long running) spider for scripts;
-- and, of course, port everythin up to Python-3
+- and, of course, port everything up to Python-3
