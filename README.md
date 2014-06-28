@@ -1,4 +1,3 @@
-[![Stories in Ready](https://badge.waffle.io/yarko/scrape.png?label=ready&title=Ready)](https://waffle.io/yarko/scrape)
 # scrape.py README:
 
 Status:  alpha  (useable / useful , but messy code, and probably not very uniform nor reliable in behavior; )
@@ -11,4 +10,12 @@ It has a search facility, and tries to provide you with match (or selection)  pa
 
 Tutorials and installation instructions can be found on [scrape.readthedocs.org](http://scrape.readthedocs.org).
 
+## Future Directions
 
+- search functions suffer from different ordering of elements and trees as retreived by selenium (during interactive); 
+  - try adapting something like scrapinghub's portia approach instead;
+- use pandas for scraping results - viewing & saving;
+- update plugin structure;
+- add timing (hit frequency) control to running script;
+- consider running background (long running) spider for scripts;
+- and, of course, port everythin up to Python-3
