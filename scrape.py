@@ -903,9 +903,10 @@ class MainCmd(cmd.Cmd):
         scrape is an alias for open.
         '''
         fn = arg
-        if not arg:
-            fn = 'about:blank'
-            self.headless = False
+        # if no arg, and headless => open a blank browser window
+        if (not arg) and (self.headless is True):
+                fn = 'about:blank'
+                self.headless = False
 
         try:
             self.doc = open_tree(fn, self.headless)
@@ -2438,55 +2439,60 @@ def open_tree(fn, headless=False):
         return node
     #-----------
 
-    isfile = os.path.isfile(fn)
+    ## TODO:  lots of try/excepts needed here:
+    # open the browser; parse the source
+    browser = Driver().browser
     # DEBUG:
     # logger.warn("fn: {}; BATCH={!s}; isfile={!s}".format(fn, BATCH, isfile))
 
     ###  This will not work with many URI's, but leave it to user discretion:
     # if BATCH or (isfile and not fn.endswith('.html')):
     # if (isfile and not fn.endswith('.html')):  # assume we can read it raw???
-    if fn and headless:
-        try:
-            node = html.parse(fn).getroot()
-        except IOError as e:   # catch all errors
-            opener = build_opener()
-            # may not need this, but we'll set it anyway:
-            opener.addheaders = [('User-agent', 'Mozilla/5.0')]
+    #### TODO: move this into a fcn:
+    if fn:
+        isfile = os.path.isfile(fn)
+        if headless:
             try:
-                f = opener.open(fn)
-                page = f.read()
-            except Exception as e:
-                logger.error("Failed to open {}: {}".format(fn, e.message))
+                node = html.parse(fn).getroot()
+            except IOError as e:   # catch all errors
+                opener = build_opener()
+                # may not need this, but we'll set it anyway:
+                opener.addheaders = [('User-agent', 'Mozilla/5.0')]
+                try:
+                    f = opener.open(fn)
+                    page = f.read()
+                except Exception as e:
+                    logger.error("Failed to open {}: {}".format(fn, e.message))
+                    raise
+                finally:
+                    f.close()
+                node = _parse_page_source(page, fn)
+            except:  # catch all
+                e = sys.exc_info()
+                logger.error("Unexpected error {}: {}".format(e[0], e[1]))
                 raise
-            finally:
-                f.close()
-            node = _parse_page_source(page, fn)
-        except:  # catch all
-            e = sys.exc_info()
-            logger.error("Unexpected error {}: {}".format(e[0], e[1]))
-            raise
-        return node
+            return node
+    
+        if isfile:  # convert it to a URI
+            nfn = 'file:///' + os.path.abspath(fn)
+            fn = nfn
+    
+        if not fn.startswith(URL_HEAD):
+            if not fn or fn.startswith(URL_TYPO):
+                msg = "No URI path or invalid path provided;"
+                logger.warn(msg)
+                return None
+            elif fn == 'about':
+                fn = fn + ':'
+            else:
+                msg = "Invalid URI: {} (protocol missing); adding 'http://'".format(fn)
+                logger.warn(msg)
+                fn = 'http://'+fn
+        # only if we're dealing with a URI, do we get it;
+        # - otherwise we get the current_url in the current browser.
+        browser.get(fn)  # load URI into browser
 
-    if isfile:  # convert it to a URI
-        nfn = 'file:///' + os.path.abspath(fn)
-        fn = nfn
-
-    if not fn.startswith(URL_HEAD):
-        if not fn or fn.startswith(URL_TYPO):
-            msg = "No URI path or invalid path provided;"
-            logger.warn(msg)
-            return None
-        elif fn == 'about':
-            fn = fn + ':'
-        else:
-            msg = "Invalid URI: {} (protocol missing); adding 'http://'".format(fn)
-            logger.warn(msg)
-            fn = 'http://'+fn
-
-    ## TODO:  lots of try/excepts needed here:
-    # open the browser; parse the source
-    browser = Driver().browser
-    browser.get(fn)  # load URI into browser
+    # else:  no filename given, use current browser url:
     page = browser.page_source
     return _parse_page_source(page, browser.current_url)
 
