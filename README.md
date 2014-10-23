@@ -10,4 +10,13 @@ It has a search facility, and tries to provide you with match (or selection)  pa
 
 Tutorials and installation instructions can be found on [scrape.readthedocs.org](http://scrape.readthedocs.org).
 
+## Future Directions
 
+Search functions suffer from different ordering of elements and trees as retreived by selenium (during interactive).
+
+- [ ] try adapting something like scrapinghub's portia approach in place of current use of selenium;
+- [ ] use pandas for scraping results - viewing & saving;
+- [ ] update plugin structure;
+- [ ] add timing (hit frequency) control to running script;
+- [ ] consider running background (long running) spider for scripts;
+- [ ] port to Python-3.4+
