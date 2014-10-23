@@ -1839,8 +1839,16 @@ class MainCmd(cmd.Cmd):
     # TODO: I could see extending / adding a 'node' command that provides any attrib
     # of a given node/nodes
     def do_nodes(self, line):
-        "nodes: return count of currently selected nodes."
+        """nodes: return count of currently selected nodes.
+        
+           aliases: n, count
+        """
         self.stderr.write("{}\n".format(len(self.node)))
+
+
+    do_n = do_nodes
+    do_count = do_nodes
+
 
     def do_tags(self, line):
         "tags:  return a list of the current node's html tags."
