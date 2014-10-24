@@ -1505,7 +1505,10 @@ class MainCmd(cmd.Cmd):
         '''usage:  cssselect [cssselector strings]
 
         Find a node by cssselector. Comma separated expressions will find all
-        of each term.  A quick (incomplete) cheat sheet:
+        of each term.
+        Alias:  select
+        
+        A quick (incomplete) cheat sheet:
 
         DIV.warning	Language specific. (In HTML, the same as DIV[class~="warning"].)
         E#myid	Matches any E element with ID equal to "myid".
@@ -1529,6 +1532,8 @@ class MainCmd(cmd.Cmd):
                         a hyphen-separated list of values beginning (from the left) with "en".
         '''
         self.getnodes('cssselect', line)
+
+    do_select = do_cssselect
 
     def do_find(self, line):
         '''find: find a node by xpath descriptor (see http://www.w3schools.com/xpath/xpath_syntax.asp)'''
