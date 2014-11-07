@@ -17,6 +17,7 @@ Search functions suffer from different ordering of elements and trees as retreiv
 - [ ] try adapting something like scrapinghub's portia approach in place of current use of selenium;
 - [ ] use pandas for scraping results - viewing & saving;
 - [ ] update plugin structure;
+  - [ ] Doug Hellman's `cliff` may be the perfect vehicle - port to `cliff`;
 - [ ] add timing (hit frequency) control to running script;
 - [ ] consider running background (long running) spider for scripts;
 - [ ] port to Python-3.4+
